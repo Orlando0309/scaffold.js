@@ -1,6 +1,6 @@
 {
   "name": "@orlando0309/scaffold.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "crud management in nodejs",
   "main": "index.js",
   "scripts": {
