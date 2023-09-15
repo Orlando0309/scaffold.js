@@ -4,7 +4,7 @@ const getRoutes=(controllers,baseurl="/api")=>{
     for (const controller of Object.values(controllers)) {
         if (typeof controller === "function") {
           const crudController = new controller();
-          const baseUrl = `${api}/${crudController.url}/`;
+          const baseUrl = `${baseurl}/${crudController.url}/`;
           router.post(`${baseUrl}`, async (req, res) => {
             try {
               await crudController.save(req, res);
