@@ -1,8 +1,10 @@
 # Documentation
 
 ## Step 1: Database configuration
+
 create a configuration for your database
-```javascript
+
+``` javascript
 const config={
     client: "mysql",
     connection: {
@@ -17,14 +19,16 @@ const config={
 ```
 
 ## Step 2: Create your model
-Import the `Scaffold` class:
-```javascript
-const { Scaffold } = require("@orlando0309/scaffold.js/scaffold/model");
 
+Import the `Scaffold` class:
+
+``` javascript
+const { Scaffold } = require("@orlando0309/scaffold/model");
 ```
+
 Inherit your model class from `Scaffold`:
 
-```javascript
+``` javascript
 class Categorie extends Scaffold{
     table = "categorie";
 }
@@ -34,20 +38,22 @@ class Categorie extends Scaffold{
 
 ### Import the `ScaffoldController` class:
 
-```javascript
-const { ScaffoldController } = require("@orlando0309/scaffold.js/scaffold/controller");
-
+``` javascript
+const { ScaffoldController } = require("@orlando0309/scaffold/controller");
 ```
 
 ### inherit your controllers with
-```javascript
+
+``` javascript
 class CategorieController extends ScaffoldController{
     modelClass = Categorie;
     config = config
     url="categorie"
 }
 ```
+
 #### Parameters:
+
 * `config`:Database configuration object
 * `modelClass`: Your model class.
 * `url`:The URL of your CRUD API.
@@ -55,17 +61,24 @@ class CategorieController extends ScaffoldController{
 ## Step 4: Routing
 
 ### Import the `getRoutes` method:
-```javascript
-const { getRoutes } = require("@orlando0309/scaffold.js/scaffold/routes");
+
+``` javascript
+const { getRoutes } = require("@orlando0309/scaffold/routes");
 ```
 
 ### Use your controller to get the routes:
 
-```javascript
+``` javascript
 const {CategorieController} = require("../controllers/controller");
 router = getRoutes({CategorieController},"/api")
 ```
+
 #### Notes:
 
 * The `getRoutes` method returns an object with all of the routes for your CRUD API.
 * You can then use the `router` object to mount your routes to your application.
+
+## Authentification
+
+scaffold.js library can provide some features to authenticate user using its API.
+Documentation comming soon...

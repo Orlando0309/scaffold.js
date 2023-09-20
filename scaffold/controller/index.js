@@ -17,10 +17,9 @@ class ScaffoldController{
         if(this.check()){
         const data=req.body
         const instance=this.createinstance(data)
-        console.log(req)
         instance.open(this.config)
         
-        await instance.save()
+        await instance.save(data)
         .then((data)=>{
             instance.close()
             res.json(data);

@@ -17,9 +17,9 @@ class Scaffold{
     check(){
         return this.table!==undefined
     }
-    save(){
+    save(values){
         return this.connection(this.table)
-        .insert(this.values)
+        .insert(values)
         .returning('*')
     }
     select(dataIdentifier = {}) {
