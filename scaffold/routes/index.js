@@ -53,6 +53,20 @@ const getRoutes=(controllers,middleware=undefined,baseurl="/api")=>{
             res.status(500).json({ error: 'Internal server error' });
           }
         });
+
+        if (crudController.routes) {
+          const baseUrl = `${baseurl}/${crudController.url}`;
+          crudController.routes.forEach((route) => {
+            router[route.method.toLowerCase()](`${baseUrl}${route.path}`, async (req, res) => {
+              try{
+                await route.handler(req,res)
+              }catch(error){
+                console.error(error);
+                res.status(500).json({ error: 'Internal server error' });
+              }
+            });
+          });
+        }
       }
   }
   return router
