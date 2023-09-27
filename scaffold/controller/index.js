@@ -55,30 +55,55 @@ class ScaffoldController{
         });
     }
 
-    selectall(req, res) {
+    async selectall(req, res) {
         const instance=this.createinstance()
         instance.open(this.config)
-        instance.select().then(data => {
+        let conditions={...req.query}
+        if(req.body.hasOwnProperty('q')){
+            conditions={...conditions,...req.body.q}
+        }
+        instance.select(conditions).then(data => {
             instance.close()
             res.status(200).json(data);
         })
 
     }
+
+    async retrieve(req, res) {
+        const { id } = req.params;
+        const instance=this.createinstance()
+        instance.open(this.config)
+        instance.select({id}).then(data => {
+            instance.close()
+            res.status(200).json(data);
+        })
+    }
+
+    
     async selectall_paginate(req, res) {
-        const {page}=req.params
-        console.log(req.query)
+        let page = 1
         let size=this.PAGE_SIZE
         if(req.query.hasOwnProperty(this.PAGE_SIZE_ATTRIBUTE)){
             size=req.query[this.PAGE_SIZE_ATTRIBUTE]
         }
+        if(req.query.hasOwnProperty('page')){
+            page=req.query.page
+        }
+
+        let conditions={}
+        if(req.body.hasOwnProperty('q')){
+            conditions={...req.body.q}
+        }
         const instance=this.createinstance()
         instance.open(this.config)
         try {
-            const results = await instance.paginate(page, size);
+            console.log("size",size,conditions)
+            const results = await instance.paginate(page, size, conditions);
             const count = await instance.count();
             instance.close();
             res.status(200).json({ results, count:(count.length>0 || count)?count[0].count:0 });
           } catch (error) {
+            console.error(error)
             instance.close();
             res.status(500).json({ error });
           }

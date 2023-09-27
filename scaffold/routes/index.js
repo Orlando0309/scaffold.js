@@ -36,7 +36,15 @@ const getRoutes=(controllers,middleware=undefined,baseurl="/api")=>{
             res.status(500).json({ error: 'Internal server error' });
           }
         })
-        router.get(`${baseUrl}:page/`,async (req, res)=>{
+        router.post(`${baseUrl}search/`,async (req, res)=>{
+          try {
+            await crudController.selectall(req, res);
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+          }
+        })
+        router.get(`${baseUrl}paginate/`,async (req, res)=>{
           try {
             await crudController.selectall_paginate(req, res);
           } catch (error) {
@@ -53,6 +61,16 @@ const getRoutes=(controllers,middleware=undefined,baseurl="/api")=>{
             res.status(500).json({ error: 'Internal server error' });
           }
         });
+        router.get(`${baseUrl}:id/`, async (req,res)=>{
+          try {
+            await crudController.retrieve(req, res);
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+          }
+        });
+
+      
 
         if (crudController.routes) {
           const baseUrl = `${baseurl}/${crudController.url}`;
